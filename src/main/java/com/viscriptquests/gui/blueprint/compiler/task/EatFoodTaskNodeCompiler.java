@@ -6,6 +6,7 @@ import com.viscriptquests.gui.blueprint.compiler.IQuestTaskNodeCompiler;
 import com.viscriptquests.gui.blueprint.compiler.QuestCompileContext;
 import com.viscriptquests.gui.blueprint.node.task.EatFoodTaskNode;
 import com.viscriptquests.quest.data.ItemMatchRule;
+import com.viscriptquests.quest.data.ItemUseHand;
 import com.viscriptquests.quest.data.task.EatFoodTask;
 import com.viscriptquests.quest.data.task.ITask;
 
@@ -30,8 +31,8 @@ public class EatFoodTaskNodeCompiler implements IQuestTaskNodeCompiler {
         }
         ItemMatchRule rule = context.getItemMatchRule(node, "item_match_rule");
         task.itemMatchRule = rule == null ? new ItemMatchRule() : rule;
-//        Object hand = context.getOptionValue(node, "use_hand");
-//        task.hand = hand instanceof ItemUseHand useHand ? useHand : ItemUseHand.ANY;
+        Object hand = context.getOptionValue(node, "use_hand");
+        task.hand = hand instanceof ItemUseHand useHand ? useHand : ItemUseHand.ANY;
         task.eatCount = context.tracePortIntValue(node, "eat_count", 1, 1);
         task.eatCountExpression.addAll(context.compileRuntimeIntExpression(node, "eat_count", 1));
         return task;

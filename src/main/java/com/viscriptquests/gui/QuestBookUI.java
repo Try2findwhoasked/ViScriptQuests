@@ -421,21 +421,22 @@ public class QuestBookUI extends UIElement {
             }
             return;
         }
-        IGuiTexture selectedTexture = STATUS_BOOKMARK_SELECTED;
+        IGuiTexture normal = theme.isClassicBook() ? STATUS_BOOKMARK : theme.buttonBase();
+        IGuiTexture selectedTexture = theme.isClassicBook() ? STATUS_BOOKMARK_SELECTED : theme.buttonHover();
         if (selected) button.addClass("selected");
         else button.removeClass("selected");
-        button.layout(layout -> layout.height(selected ? 28 : 24));
+        if (theme.isClassicBook()) button.layout(layout -> layout.height(selected ? 28 : 24));
         button.buttonStyle(style -> style
-                .baseTexture(selected ? selectedTexture : STATUS_BOOKMARK)
+                .baseTexture(selected ? selectedTexture : normal)
                 .hoverTexture(selectedTexture)
-                .pressedTexture(STATUS_BOOKMARK_SELECTED));
+                .pressedTexture(theme.isClassicBook() ? STATUS_BOOKMARK_SELECTED : theme.buttonPressed()));
         button.textStyle(style -> style
-                .textColor(selected ? TEXT_SELECTED : 0xFFF2DBB2)
-                .fontSize(FONT_SMALL)
+                .textColor(theme.isClassicBook() ? selected ? TEXT_SELECTED : 0xFFF2DBB2 : theme.primaryText())
+                .fontSize(theme.isClassicBook() ? FONT_SMALL : 8)
                 .textShadow(false)
                 .textAlignHorizontal(Horizontal.CENTER)
                 .textAlignVertical(Vertical.CENTER)
-                .textWrap(TextWrap.WRAP));
+                .textWrap(theme.isClassicBook() ? TextWrap.WRAP : TextWrap.HIDE));
     }
 
     private void moveStatusSelectionUnderline(Button selectedButton) {

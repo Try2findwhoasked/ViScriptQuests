@@ -159,12 +159,19 @@ public class QuestValueToken implements IPersistedSerializable {
         if (player == null || objectiveName == null || objectiveName.isBlank()) {
             return 0f;
         }
-        Scoreboard scoreboard = player.getScoreboard();
+        return readScoreboardValue(player.getScoreboard(), objectiveName, scoreHolderName, player.getScoreboardName());
+    }
+
+    static float readScoreboardValue(Scoreboard scoreboard, String objectiveName, String scoreHolderName, String playerName) {
+        if (objectiveName == null || objectiveName.isBlank()) return 0f;
         Objective objective = scoreboard.getObjective(objectiveName.trim());
         if (objective == null) {
             return 0f;
         }
-        return scoreboard.getOrCreatePlayerScore(player.getScoreboardName(), objective).getScore();
+        String holderName = scoreHolderName == null || scoreHolderName.isBlank()
+                ? playerName : scoreHolderName.trim();
+        if (!scoreboard.hasPlayerScore(holderName, objective)) return 0f;
+        return scoreboard.getOrCreatePlayerScore(holderName, objective).getScore();
     }
 
     private static float readPlayerItemCount(ServerPlayer player, ItemStack itemStack, ItemMatchRule matchRule) {

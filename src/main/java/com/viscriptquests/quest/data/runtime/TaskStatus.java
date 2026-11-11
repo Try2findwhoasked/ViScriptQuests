@@ -1,6 +1,5 @@
 package com.viscriptquests.quest.data.runtime;
 
-import com.viscriptquests.ViScriptQuests;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.chat.Component;
@@ -17,7 +16,7 @@ public enum TaskStatus {
      * 该状态会变为 <code>ACTIVE</code>。
      */
     LOCKED("viscript_quests.quest_book.task_status.locked",
-            ViScriptQuests.id("textures/gui/status/revoked.png")),
+            new ResourceLocation("viscript_quests", "textures/gui/status/revoked.png")),
 
     /**
      * 表示任务目标已经解锁并等待玩家完成。
@@ -25,7 +24,7 @@ public enum TaskStatus {
      * <p>只有激活状态的目标会参与手动提交或自动提交检查，也会被任务追踪服务选为可追踪目标。
      */
     ACTIVE("viscript_quests.quest_book.task_status.active",
-            ViScriptQuests.id("textures/gui/status/active.png")),
+            new ResourceLocation("viscript_quests", "textures/gui/status/active.png")),
 
     /**
      * 表示任务目标已经完成。
@@ -34,7 +33,7 @@ public enum TaskStatus {
      * 并会根据客户端配置决定是否继续显示在任务书中。
      */
     COMPLETED("viscript_quests.quest_book.task_status.completed",
-            ViScriptQuests.id("textures/gui/status/completed.png")),
+            new ResourceLocation("viscript_quests", "textures/gui/status/completed.png")),
 
     /**
      * 表示任务目标执行失败。
@@ -43,7 +42,7 @@ public enum TaskStatus {
      * 跳过分支处理结束路径，不会把普通未完成目标自动改为此状态。
      */
     FAILED("viscript_quests.quest_book.task_status.failed",
-            ViScriptQuests.id("textures/gui/status/failed.png")),
+            new ResourceLocation("viscript_quests", "textures/gui/status/failed.png")),
 
     /**
      * 表示任务目标因为流程分支或任务结束而被跳过。
@@ -52,7 +51,7 @@ public enum TaskStatus {
      * 跳过。跳过目标不会再提交，并会根据客户端配置决定是否继续显示在任务书中。
      */
     SKIPPED("viscript_quests.quest_book.task_status.skipped",
-            ViScriptQuests.id("textures/gui/status/revoked.png")),
+            new ResourceLocation("viscript_quests", "textures/gui/status/revoked.png")),
 
     /**
      * 表示任务目标对玩家隐藏。
@@ -61,7 +60,7 @@ public enum TaskStatus {
      * 但暂时不希望玩家看到的目标。
      */
     HIDDEN("viscript_quests.quest_book.task_status.hidden",
-            ViScriptQuests.id("textures/gui/status/revoked.png"));
+            new ResourceLocation("viscript_quests", "textures/gui/status/revoked.png"));
 
     private final String translationKey;
     private final ResourceLocation tagTexture;

@@ -51,8 +51,10 @@ public class AdvancementTask extends ITask {
                 progress.hint = Component.translatable("viscript_quests.task_hint.advancement_task",
                         advancement.getChatComponent());
             }
-            ItemStack icon = Optional.ofNullable(advancement.getDisplay().getIcon())
-                .orElse(Items.KNOWLEDGE_BOOK.getDefaultInstance());
+            ItemStack icon = Optional.ofNullable(advancement.getDisplay())
+                    .map(display -> display.getIcon().copy())
+                    .filter(stack -> !stack.isEmpty())
+                    .orElse(Items.KNOWLEDGE_BOOK.getDefaultInstance());
             progress.displayIcon = DisplayIcon.item(icon);
         }
         super.refreshObjectiveProgress(player, progress, questVariables);

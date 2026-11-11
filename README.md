@@ -2,9 +2,9 @@
 
 任务工程和运行文件上传需要服务端 4 级权限。客户端提交目标时只携带任务 ID、小任务 ID 和目标索引；服务端检查接取状态、当前目标与真实完成条件，并从服务端任务文件发放奖励。任务结束状态会在执行完成奖励指令之前写入运行时状态，避免指令重入重复结算。
 
-联动 VSS 的权限回归场景可在主工程运行 `./gradlew :ViScriptQuests:runClient -PldTest=command_authorization -PldTestWindow=1280x720`。该开发场景使用隔离世界验证伪造购买、配置上传、目标提交与重复领奖。
+联动 VSS 的权限回归场景可在主工程运行 `./gradlew :ViScriptQuest:runClient -PldTest=command_authorization -PldTestWindow=1280x720`。该开发场景使用隔离世界验证伪造购买、配置上传、目标提交与重复领奖。
 
-ViScriptQuests 是一个面向 NeoForge 1.21.1 的 RPG 任务系统模组。它使用 LDLib2 的 UI、持久化、自动注册和节点图能力，把任务编辑、任务运行时、任务书、HUD 追踪和模组联动放在同一套数据模型里。
+ViScriptQuests 是一个面向 Forge 1.20.1 的 RPG 任务系统模组。它使用 LDLib2 的 UI、持久化、自动注册和节点图能力，把任务编辑、任务运行时、任务书、HUD 追踪和模组联动放在同一套数据模型里。
 
 这个模组的目标不是只提供几个固定任务，而是让整合包作者和开发者可以用蓝图编辑器制作任务流程，再导出成服务端可加载的运行时任务文件。
 
@@ -53,7 +53,7 @@ ViScriptQuests 是一个面向 NeoForge 1.21.1 的 RPG 任务系统模组。它�
 
 ## 已支持目标
 
-- 物品目标：检测玩家背包、末影箱和已接入容器来源中的物品数量，支持严格组件匹配、自动提交或手动提交，也可以选择提交时是否扣除物品。
+- 物品目标：检测玩家背包、末影箱和已接入容器来源中的物品数量，支持严格 NBT 匹配、自动提交或手动提交，也可以选择提交时是否扣除物品。
 - 货币目标：联动 ViScriptShop，检查玩家余额或提交指定货币数量。支持整数数量与动态数值表达式、自动或手动提交；开启“提交时扣除货币”后，手动模式允许分批缴纳并累计实际扣款，关闭时检查余额而不扣款。货币的小数部分保留在钱包中，扣款不会透支。
 - 到达位置：检查玩家是否进入指定维度和坐标半径内，并可在 HUD 中显示导航标记。
 - 击杀实体：按实体类型和实体标签累计击杀数量。
@@ -153,10 +153,16 @@ KubeJS 与 NeoForge 任务事件的目标格式、过滤方法和完整示例见
 
 ## 依赖与环境
 
-- Minecraft：1.21.1
-- NeoForge：21.1+
-- Java：21
-- LDLib2：2.2.10+
+- Minecraft：1.20.1
+- Forge：47.1.30+（目标整合包为 47.4.10）
+- Java：17
+- LDLib2：主工程配套的 Forge 2.2.45 版本，并使用主工程声明的 NeoBackports
+
+## 1.20.1 迁移与开发记录
+
+本分支将主分支剧情功能回迁到 Forge 1.20.1，保留 NBT、KubeJS 6 与现有存档格式。
+开发范围、环境配置、验证入口与限制见 [迁移记录](docs/BACKPORT_1_20_1.md)。
+本模组在 SAO 服务器仅承担剧情，不替代现有钱包、NPC 注册表或 FTB 旧任务。
 
 ## 开发与构建
 
@@ -166,23 +172,28 @@ ViScriptQuests 现在作为 [ViScriptLib](https://github.com/zhenshiz/ViScriptLi
 
 ```bash
 # 克隆主工程并同时拉取全部子模块
-git clone --recursive https://github.com/zhenshiz/ViScriptLib.git
+git clone --branch 1.20.1 --recursive https://github.com/zhenshiz/ViScriptLib.git
 cd ViScriptLib
 
 # 已克隆过主工程时，可手动拉取/更新子模块
 git submodule update --init --recursive
 ```
 
-常用命令（均在主工程根目录执行，需要 Java 21）：
+常用命令（均在主工程根目录执行，需要 Java 17）：
 
 | 命令 | 作用 |
 | --- | --- |
-| `./gradlew :ViScriptQuests:build` | 单独构建本模组 |
-| `./gradlew :ViScriptQuests:runClient` | 启动客户端调试本模组 |
+| `./gradlew :ViScriptQuest:build` | 单独构建本模组 |
+| `./gradlew :ViScriptQuest:runClient` | 启动客户端调试本模组 |
 | `./gradlew buildAll` | 构建所有子项目，产物在主工程根目录 `build/libs` |
 | `./gradlew cleanLibs` | 清理所有子项目的构建产物 |
 
 对本仓库的修改需要以子模块的形式提交并推送到本仓库；随后在主工程中再提交一次指向新 commit 的子模块引用。
+
+## 本地验证
+
+在本模组根目录配置 `mise.local.toml` 的 `VISCRIPT_WORKSPACE` 后，执行 `mise run build`、
+`mise run verify` 和 `mise run verify:ui`。完整准备步骤与实际验证状态见迁移记录。
 
 ## 当前状态
 

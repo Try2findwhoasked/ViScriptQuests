@@ -110,3 +110,15 @@ tasks.withType(ProcessResources).configureEach {
         expand replaceProperties
     }
 }
+
+// Agent-assisted regression harness; runs real 1.20.1 scoreboard and hand APIs.
+sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
+sourceSets.test.runtimeClasspath += sourceSets.main.runtimeClasspath
+tasks.register('backportRegression', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.viscriptquests.quest.data.BackportRegression'
+}
+tasks.named('check') { dependsOn 'backportRegression' }
+
+apply from: project.file('gradle/ldlib2-uitest.gradle')

@@ -4,13 +4,10 @@ import com.lowdragmc.lowdraglib2.gui.factory.PlayerUIMenuType;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.mojang.logging.LogUtils;
-import com.viscriptquests.config.ClientConfig;
 import com.viscriptquests.gui.editor.QuestEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
@@ -21,7 +18,7 @@ public class ViScriptQuests {
 
     public ViScriptQuests() {
         if (FMLEnvironment.dist.isClient()) {
-            ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC, String.format("%s_client_config.toml", MOD_ID));
+            ViScriptQuestsClient.registerConfig();
         }
         PlayerUIMenuType.register(QuestEditor.EDITOR_ID, ignored -> player -> {
             if (player.level().isClientSide) {

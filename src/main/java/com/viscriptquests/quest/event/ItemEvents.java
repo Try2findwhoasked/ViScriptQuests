@@ -18,7 +18,7 @@ public class ItemEvents {
     @SubscribeEvent
     public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            QuestSubmissionService.recordFoodEaten(player, event.getItem());
+            QuestSubmissionService.recordFoodEaten(player, event.getItem(), player.getUsedItemHand());
         }
     }
 

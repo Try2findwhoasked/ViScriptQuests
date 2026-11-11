@@ -33,7 +33,7 @@ public class ScoreboardMutation implements IPersistedSerializable {
         if (objective == null) {
             return;
         }
-        var score = scoreboard.getOrCreatePlayerScore(player.getScoreboardName(), objective);
+        var score = scoreboard.getOrCreatePlayerScore(resolveScoreHolderName(player), objective);
         float operand = expression.isEmpty() ? value : QuestValueToken.evaluate(expression, questVariables, player);
         int nextValue = Math.round(operation.apply(score.getScore(), operand));
         try {

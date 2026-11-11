@@ -600,5 +600,6 @@
   "viscript_quests.blueprint.node.currency_task.usage": "Enter or wire Currency and choose Auto or Manual submission. Consume Currency deducts the amount; manual consuming objectives accept partial payments. Non-consuming objectives check the available balance. Fractional currency remains in the wallet. Requires ViScriptShop.",
   "viscript_quests.blueprint.port.consume_currency": "Consume Currency on Submission",
   "viscript_quests.task_hint.currency_task.submit": "Submit %s currency",
-  "viscript_quests.task_hint.currency_task.have": "Have %s currency"
+  "viscript_quests.task_hint.currency_task.have": "Have %s currency",
+  "viscript_quests.configuration.invalid": "Invalid value. Check numbers and allowed ranges."
 }

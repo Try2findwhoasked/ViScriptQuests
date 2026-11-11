@@ -4,7 +4,9 @@ import com.lowdragmc.lowdraglib2.nodegraphtookit.api.node.NodeAttribute;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IOptionDefinitionContext;
 import com.lowdragmc.lowdraglib2.nodegraphtookit.model.node.definition.IPortDefinitionContext;
 import com.viscriptquests.gui.blueprint.QuestBlueprintGraph;
+import com.viscriptquests.gui.blueprint.QuestBlueprintTypes;
 import com.viscriptquests.gui.blueprint.node.QuestBlueprintNode;
+import com.viscriptquests.quest.data.ItemUseHand;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -24,7 +26,7 @@ public class EatFoodTaskNode extends QuestBlueprintNode {
             itemStackOption(context, "item_stack");
             itemMatchRuleOption(context, "item_match_rule");
         }
-//        enumOption(context, "use_hand", QuestBlueprintTypes.ITEM_USE_HAND, ItemUseHand.ANY);
+        enumOption(context, "use_hand", QuestBlueprintTypes.ITEM_USE_HAND, ItemUseHand.ANY);
         taskCommonOptions(context);
     }
 

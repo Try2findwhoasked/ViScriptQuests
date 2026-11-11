@@ -10,6 +10,7 @@ import com.viscriptquests.util.QuestFileHelper;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -334,12 +335,16 @@ public class QuestSubmissionService {
      * @return 至少一个任务进度发生变化时返回 {@code true}
      */
     public static boolean recordFoodEaten(ServerPlayer player, ItemStack consumedStack) {
+        return recordFoodEaten(player, consumedStack, player == null ? null : player.getUsedItemHand());
+    }
+
+    public static boolean recordFoodEaten(ServerPlayer player, ItemStack consumedStack, InteractionHand hand) {
         if (player == null || consumedStack == null || consumedStack.isEmpty()
                 || player.level().isClientSide()) {
             return false;
         }
         return recordTaskProgress(player, EatFoodTask.class, (recordPlayer, eatTask, objective, questState) -> {
-            if (!objective.isActive() || !eatTask.matches(recordPlayer, consumedStack)) {
+            if (!objective.isActive() || !eatTask.matches(recordPlayer, consumedStack, hand)) {
                 return false;
             }
             int required = eatTask.getRequiredAmount(questState.questVariables, recordPlayer);

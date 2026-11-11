@@ -4,11 +4,13 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.viscriptquests.quest.data.DisplayIcon;
 import com.viscriptquests.quest.data.ItemMatchRule;
+import com.viscriptquests.quest.data.ItemUseHand;
 import com.viscriptquests.quest.data.QuestValueToken;
 import com.viscriptquests.quest.data.QuestVariableValue;
 import com.viscriptquests.quest.data.runtime.TaskObjectiveProgress;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
@@ -30,8 +32,8 @@ public class EatFoodTask extends ITask {
     public ItemStack itemStack = ItemStack.EMPTY;
     @Persisted
     public ItemMatchRule itemMatchRule = new ItemMatchRule();
-//    @Persisted
-//    public ItemUseHand hand = ItemUseHand.ANY;
+    @Persisted
+    public ItemUseHand hand = ItemUseHand.ANY;
     @Persisted
     public int eatCount = 1;
     @Persisted
@@ -45,8 +47,14 @@ public class EatFoodTask extends ITask {
      * @return 具有食物属性或饮用动画，且通过物品、组件和手部筛选时返回 {@code true}
      */
     public boolean matches(ServerPlayer player, ItemStack consumedStack) {
+        return matches(player, consumedStack, player == null ? null : player.getUsedItemHand());
+    }
+
+    /** Matches a completed item use with an explicit hand captured at the event boundary. */
+    public boolean matches(ServerPlayer player, ItemStack consumedStack, InteractionHand usedHand) {
         if (consumedStack == null || consumedStack.isEmpty()
-                || (consumedStack.getFoodProperties(player) == null && consumedStack.getUseAnimation() != UseAnim.DRINK)) {
+                || (consumedStack.getFoodProperties(player) == null && consumedStack.getUseAnimation() != UseAnim.DRINK)
+                || !hand.matches(usedHand)) {
             return false;
         }
         return anyFood || (!itemStack.isEmpty() && itemMatchRule.matches(consumedStack, itemStack));
@@ -118,8 +126,11 @@ public class EatFoodTask extends ITask {
         Component foodName = anyFood
                 ? Component.translatable("viscript_quests.task.food.any")
                 : itemStack.isEmpty() ? Component.translatable("viscript_quests.task.food.unset") : itemStack.getHoverName();
-        return Component.translatable("viscript_quests.task_hint.eat_food_task",
+        Component hint = Component.translatable("viscript_quests.task_hint.eat_food_task",
                 getRequiredAmount(questVariables, player), foodName);
+        return hand == ItemUseHand.ANY ? hint
+                : Component.translatable("viscript_quests.task_hint.eat_food_task.with_hand",
+                        hint, Component.translatable(hand.getSerializedName()));
     }
 
     @Override

@@ -600,5 +600,6 @@
   "viscript_quests.blueprint.node.currency_task.usage": "填写或连入“货币”数量，并选择自动或手动提交。“提交时扣除货币”开启时会扣款，手动提交允许分批缴纳；关闭时检查玩家余额。余额的小数部分会保留。需要安装 ViScriptShop。",
   "viscript_quests.blueprint.port.consume_currency": "提交时扣除货币",
   "viscript_quests.task_hint.currency_task.submit": "需要提交 %s 货币",
-  "viscript_quests.task_hint.currency_task.have": "需要拥有 %s 货币"
+  "viscript_quests.task_hint.currency_task.have": "需要拥有 %s 货币",
+  "viscript_quests.configuration.invalid": "配置值无效，请检查数字和允许范围。"
 }

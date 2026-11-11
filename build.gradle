@@ -1,5 +1,7 @@
 
-version = mod_version
+def questVersion = providers.gradleProperty('viscriptquests_version').getOrElse(mod_version)
+
+version = questVersion
 group = mod_group_id
 
 repositories {
@@ -15,7 +17,7 @@ repositories {
 }
 
 base {
-    archivesName = "${mod_name}-forge-${minecraft_version}"
+    archivesName = "${mod_name}-${platform_name}-${minecraft_version}"
 }
 
 configurations.configureEach {
@@ -99,7 +101,7 @@ tasks.withType(ProcessResources).configureEach {
             mod_id                   : mod_id,
             mod_name                 : mod_name,
             mod_license              : mod_license,
-            mod_version              : mod_version,
+            mod_version              : questVersion,
             mod_authors              : mod_authors,
             mod_description          : mod_description,
             ldlib2_version           : ldlib2_version,

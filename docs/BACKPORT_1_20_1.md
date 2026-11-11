@@ -63,6 +63,17 @@ Java 17 用于模组源码与游戏；当前 ModDev/NeoForm 构建工具另需 J
    mise run verify:ui
    ```
 
+需要 NeoForge 1.20.1 发布包时，使用独立构建入口：
+
+```powershell
+mise run build:neoforge
+```
+
+该任务保持 Forge 构建不变，改用 NeoForge `1.20.1-47.1.106` 重新编译、重混淆并执行同一套
+回迁回归检查。产物位于 `build/ViScriptQuest/libs/`，文件名为
+`ViScriptQuests-neoforge-1.20.1-1.0.4-beta.jar`；内嵌的 ViScriptLib 也使用同一平台版本构建。
+安装时仍需客户端和服务端同时提供兼容的 LDLib2 2.2.45 及模组声明的其他前置。
+
 `verify` 在真实项目编译类路径上检查指定/空白持有者、读操作不创建分数和手部筛选。
 `verify:ui` 启动图形客户端，在隔离世界运行 AI 测试，使用本机确定性协议夹具，不需要真实模型密钥。
 不要在玩家世界里执行开发场景。

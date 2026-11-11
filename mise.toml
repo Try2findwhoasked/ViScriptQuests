@@ -6,6 +6,10 @@ gradle = "8.12.1"
 description = "Build Forge 1.20.1 in the configured ViScript parent workspace"
 run = "powershell -NoProfile -File tools/build.ps1"
 
+[tasks."build:neoforge"]
+description = "Build NeoForge 1.20.1 in the configured ViScript parent workspace"
+run = "powershell -NoProfile -File tools/build.ps1 -NeoForge"
+
 [tasks.verify]
 description = "Run Forge backport regression checks"
 run = "powershell -NoProfile -File tools/build.ps1 -Verify"
